@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+
+    var request = HttpContext.Current.Request;
+    var appUrl = HttpRuntime.AppDomainAppVirtualPath;
+    var baseUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Authority, appUrl);
+}
+<script src="~/Scripts/Account.js"></script>
+<div id="AccountForm">
+    @if (!Request.IsAuthenticated)
+    {
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>@Html.Editor("Id")</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input class="button" type="button" value="Login" onclick="CallServerLogin('@baseUrl');" />
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        <p>Sveicināts, @User.Identity.Name !</p> 
+       <input class="button" type="button" onclick="javascript:CallServerSignOut('@baseUrl');" value="Logout" />
+    }
+</div>

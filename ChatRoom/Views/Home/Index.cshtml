@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="Scripts/jquery.signalR-1.0.1.min.js" type="text/javascript"></script>
+@*    SignalR dinamiski izveidotais fails*@
+<script src="/signalr/hubs" type="text/javascript"></script>
+<script src="~/Scripts/SignalRMethods.js"></script>
+@*Uz ielādi, izsaucam*@
+
+        <script type="text/javascript">
+            RegisterNewClient();
+        </script>
+
+<div id="ChatContext">
+    <table id="SendMsgContext">
+        <tr>
+            <td class="tableBorders FriendlyBackground">
+          @* Globālā čata ziņas*@
+                <div id="GlobalMessages" class="box">
+                    <p>FirstText</p><p>Sencond text</p><p>How are you ?</p>
+                </div>
+            </td>
+            <td rowspan="2" colspan="2" class="tableBorders FriendlyBackground UserList">
+           @* Aktīvo lietotāju saraksts*@
+                <div id="ActiveUserCount">
+                    ................
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+               @* Sūtīt ziņu*@
+                <div id="SendForm">
+                    <table id="InputElem"  class="tableBorders FriendlyBackground">
+                        <tr>
+                            <td >
+                                  @Html.TextBox("GlobalMsgText")
+                            </td>
+                            <td>
+                                  <input class="button" type="button" value="Sūtīt" onclick="SendGlobalMessage($('#GlobalMsgText'))" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        $('#GlobalMsgText').keyup(function (event) {
+            if (event.keyCode == 13) {
+                SendGlobalMessage($('#GlobalMsgText'))
+            }
+        });
+    </script>
+</div>
