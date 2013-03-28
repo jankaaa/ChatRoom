@@ -56,8 +56,8 @@ namespace ChatRoom
             }
             //Atgriežam lietotājus, kas ir tiešsasitē
             Clients.All.onConnection(UsersOnline);
-            
-           
+
+
         }
 
         /// <summary>
@@ -70,11 +70,12 @@ namespace ChatRoom
             var userName = UsersOnline.FirstOrDefault(x => x.Connection == Context.ConnectionId);
             if (userName != null)
             {
-                Clients.All.sendToGlobal(userName.Name, msg);
+                Clients.All.sendToGlobal("(" + DateTime.Now.ToShortTimeString() +
+                    ") " + userName.Name, msg);
             }
             else
             {
-                SendErrorMessage("Lai aktivizētu tērzēšanas funkcijas jums ir jāauterizējas !");
+                SendErrorMessage("Lai aktivizētu tērzēšanas funkcijas jums ir jāauterizējas sistēmā!");
             }
         }
 
@@ -153,6 +154,9 @@ namespace ChatRoom
 
         #endregion
 
+
+
+
         #region "Functions"
 
         /// <summary>
@@ -163,7 +167,7 @@ namespace ChatRoom
         private string ValidateUserName(string userName, int Ident)
         {
             var user = UsersOnline.FirstOrDefault(x => x.Name == userName);
-            if(user == null)
+            if (user == null)
             {
                 return userName;
             }

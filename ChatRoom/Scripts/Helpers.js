@@ -6,11 +6,7 @@
 }
 
 function ShowErrorWindows(message) {
-    var gab = document.createElement('div');
-    gab.setAttribute('id', 'OVER');
-    gab.innerHTML = '<div class="overlay">' + message + '</div>';
-    document.body.appendChild(gab);
-    
+    alert(message);
 }
 
 
@@ -18,3 +14,5 @@ function ShowErrorWindows(message) {
 function RemoveWaitSCreen() {
     $('#OVER').remove();
 }
+
+

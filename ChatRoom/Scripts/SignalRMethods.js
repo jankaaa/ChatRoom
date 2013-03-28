@@ -42,8 +42,10 @@ function SetClientMethods() {
 
     //Ziņa Visiem
     Hubs.client.sendToGlobal = function (username, msg) {
-        var message = '<p>' + username + ': ' + msg + '</p>';
-        $('#GlobalMessages').append(message);
+        var generalChatBox = $('#GlobalMessages');
+        var message = '<div class="GlobMsg"> <b>' + username + '</b>: ' + msg + '</div>';
+        generalChatBox.append(message);
+        generalChatBox.scrollTop(9999999999999999);
     }
 
     //Privāta ziņa 
@@ -53,16 +55,17 @@ function SetClientMethods() {
 
     //Error logs
     Hubs.client.sendErrorMessage = function (user, msg) {
-        var message = '<p style="Color:Red">' + user + ': ' + msg + '</p>';
+        var message = '<div class="GlobMsg" style="Color:Red">' + user + ': ' + msg + '</div>';
         $('#GlobalMessages').append(message);
     }
 
     //Visiem ziņa, ka ir pienācis jauns ļietotājs
     Hubs.client.onConnection = function (allUsers) {
+
         var userList = $('#ActiveUserCount');
         userList.empty();
         for (i = 0; i < allUsers.length; i++) {
-            var users = '<p id="' + allUsers[i].Connection + '">' + allUsers[i].Name + '</p>';
+            var users = '<div onmousedown="javascript:CallPrivateMessageDialog(this)" class="ActiveUser" id="' + allUsers[i].Connection + '">' + allUsers[i].Name + '</div>';
             userList.append(users);
         }
     }
@@ -92,6 +95,12 @@ function SendGlobalMessage(message) {
         message.val("");
         message.focus();
     }
+}
+
+
+
+function CallPrivateMessageDialog(item) {
+    //alert(item.id);
 }
 
 

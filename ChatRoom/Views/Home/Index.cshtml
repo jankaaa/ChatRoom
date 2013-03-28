@@ -7,37 +7,35 @@
 <script src="~/Scripts/SignalRMethods.js"></script>
 @*Uz ielādi, izsaucam*@
 
-        <script type="text/javascript">
-            RegisterNewClient();
-        </script>
+<script type="text/javascript">
+    RegisterNewClient();
+</script>
 
-<div id="ChatContext">
+
     <table id="SendMsgContext">
         <tr>
-            <td class="tableBorders FriendlyBackground">
-          @* Globālā čata ziņas*@
-                <div id="GlobalMessages" class="box">
-                    <p>FirstText</p><p>Sencond text</p><p>How are you ?</p>
-                </div>
+            <td   style="table-layout:fixed" class="tableBorders FriendlyBackground box">
+               <div id="GlobalMessages">
+                 @* Globālā čata ziņas*@
+                <div class="GlobMsg" style="color:#cbcbcb"> System: v1.130410.1  </div>
+                   </div>
             </td>
-            <td rowspan="2" colspan="2" class="tableBorders FriendlyBackground UserList">
-           @* Aktīvo lietotāju saraksts*@
-                <div id="ActiveUserCount">
-                    ................
-                </div>
+            <td  id="ActiveUserCount" rowspan="2" class="tableBorders FriendlyBackground UserList">
+                @* Aktīvo lietotāju saraksts*@
+
             </td>
         </tr>
         <tr>
             <td>
-               @* Sūtīt ziņu*@
+                @* Sūtīt ziņu*@
                 <div id="SendForm">
-                    <table id="InputElem"  class="tableBorders FriendlyBackground">
+                    <table id="InputElem" class="tableBorders FriendlyBackground">
                         <tr>
-                            <td >
-                                  @Html.TextBox("GlobalMsgText")
+                            <td>
+                                @Html.TextBox("GlobalMsgText")
                             </td>
                             <td>
-                                  <input class="button" type="button" value="Sūtīt" onclick="SendGlobalMessage($('#GlobalMsgText'))" />
+                                <input class="button" type="button" value="Sūtīt" onclick="SendGlobalMessage($('#GlobalMsgText'))" />
                             </td>
                         </tr>
                     </table>
@@ -52,4 +50,3 @@
             }
         });
     </script>
-</div>

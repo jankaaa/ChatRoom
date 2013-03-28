@@ -11,11 +11,8 @@
     {
         <table>
             <tr>
-                <td>ID</td>
-                <td>@Html.Editor("Id")</td>
-            </tr>
-            <tr>
-                <td></td>
+               
+                <td><input class="text-box single-line" id="Id" name="Id" maxlength="10" type="text" value=""></td>
                 <td>
                     <input class="button" type="button" value="Login" onclick="CallServerLogin('@baseUrl');" />
                 </td>
@@ -24,7 +21,8 @@
     }
     else
     {
-        <p>Sveicināts, @User.Identity.Name !</p> 
+        <span><em> Sveiks, <b>@User.Identity.Name ! </b> </em>
        <input class="button" type="button" onclick="javascript:CallServerSignOut('@baseUrl');" value="Logout" />
+            </span>
     }
 </div>
