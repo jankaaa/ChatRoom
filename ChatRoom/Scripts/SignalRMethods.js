@@ -52,10 +52,10 @@ function SetClientMethods() {
     Hubs.client.sendPrivateMessage = function (partnerId, sender, msg) {
         //Atveram dialog logu ja vēl nav atvērts
         CallPrivateMessageDialog(partnerId);
-            var chatMessages = $('#' + partnerId + '_msgContent');
-            var message = '<div class=""> <b>' + sender + '</b>: ' + msg + '</div>';
-            chatMessages.append(message);
-            chatMessages.scrollTop(9999999999999999);
+        var chatMessages = $('#' + partnerId + '_msgContent');
+        var message = '<div class=""> <b>' + sender + '</b>: ' + msg + '</div>';
+        chatMessages.append(message);
+        chatMessages.scrollTop(9999999999999999);
     }
 
     //Error logs
@@ -111,14 +111,19 @@ function CallPrivateMessageDialog(item) {
     //Atveram jaunu modal logu
     if (msgDialog.length == 0) {
         ShowWaitScreen();
-        $.get('Home/GetPrivateMessageDialog?Id=' + item, function (data) {
-            $('#DialogContent').append(data);
-            $('.DialogTable').draggable();
-            RemoveWaitSCreen()
+
+        $.ajax({
+            url: 'Home/GetPrivateMessageDialog',
+            data: "Id=" + item,
+            type: "POST",
+            async: false,
+            success: function (data) {
+                    $('#DialogContent').append(data).hide().show('slow');
+                    $('.DialogTable').draggable();
+                    RemoveWaitSCreen();
+            }
         });
     }
-    
-    
 }
 
 

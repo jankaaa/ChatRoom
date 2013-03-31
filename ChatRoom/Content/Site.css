@@ -2,7 +2,8 @@
     font-family: arial,tahoma,verdana,sans-serif;
     width: 850px;
     height: 733px;
-    position: absolute;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 #AccountForm {
@@ -172,8 +173,8 @@ a {
 /*--------------------------------------------------------*/
 .DialogTable {
     position: absolute;
-    left: 100px;
-    top: 100px;
+    left:20%;
+    top: 20%;
 }
 
 /*Ziņu kontents*/

@@ -9,15 +9,15 @@ function ShowErrorWindows(message) {
     alert(message);
 }
 
-
-
 function RemoveWaitSCreen() {
-    $('#OVER').remove();
+    var target = $('#OVER');
+    target.remove();
 }
 
 function CloseModalWindows(item) {
     var cssSelector = '#' + item + '_dialog';
-    $(cssSelector).remove();
+    var target = $(cssSelector);
+    target.hide(100, function () { target.remove(); });
 }
 
 

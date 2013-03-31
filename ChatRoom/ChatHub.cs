@@ -82,28 +82,6 @@ namespace ChatRoom
         }
 
         /// <summary>
-        /// Sūtīt ziņu privāti
-        /// </summary>
-        /// <param name="toUserId"></param>
-        /// <param name="msg"></param>
-        public void SendErrorMessage(string toUserId, string msg)
-        {
-            var callerId = Context.ConnectionId;
-            bool userIsOnList =
-                UsersOnline.FirstOrDefault(x => x.Connection == toUserId) == null ? false : true;
-
-            //Vai ir online
-            if (userIsOnList)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-
-        /// <summary>
         /// Klientam izejot no sistēmas
         /// </summary>
         public override System.Threading.Tasks.Task OnDisconnected()
@@ -144,6 +122,12 @@ namespace ChatRoom
           ") <span class=\"SenderFormat\">" + Sender.Name + "</span>", message);
                 }
             }
+            else
+            {
+                Clients.Caller.SendPrivateMessage(toConnId, "(" + DateTime.Now.ToShortTimeString() +
+") <span style=\"Color:Red\" class=\"SenderFormat\">System</span>", "Lai sūtītu ziņu ir jāienāk sistēmā!");
+            }
+
         }
 
         #endregion
