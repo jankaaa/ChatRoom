@@ -15,4 +15,9 @@ function RemoveWaitSCreen() {
     $('#OVER').remove();
 }
 
+function CloseModalWindows(item) {
+    var cssSelector = '#' + item + '_dialog';
+    $(cssSelector).remove();
+}
+
 

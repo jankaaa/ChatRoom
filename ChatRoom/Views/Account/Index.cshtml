@@ -14,7 +14,7 @@
                
                 <td><input class="text-box single-line" id="Id" name="Id" maxlength="10" type="text" value=""></td>
                 <td>
-                    <input class="button" type="button" value="Login" onclick="CallServerLogin('@baseUrl');" />
+                    <input class="button" type="button" value="Ienākt" onclick="CallServerLogin('@baseUrl');" />
                 </td>
             </tr>
         </table>
@@ -22,7 +22,7 @@
     else
     {
         <span><em> Sveiks, <b>@User.Identity.Name ! </b> </em>
-       <input class="button" type="button" onclick="javascript:CallServerSignOut('@baseUrl');" value="Logout" />
+       <input class="button" type="button" onclick="javascript:CallServerSignOut('@baseUrl');" value="Iziet" />
             </span>
     }
 </div>

@@ -6,9 +6,11 @@
     <title>@ViewBag.Title</title>
 
     <link href="~/Content/Site.css" rel="stylesheet" />
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/Helpers.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" type="text/javascript"></script>
 
+    <script src="~/Scripts/Helpers.js"></script>
+    <link href="~/Content/DialogStyle.css" rel="stylesheet" />
 
 
 
@@ -17,20 +19,20 @@
 
     <table id="ContentTable" class="tableMainBorder FriendlyBackground">
         @* Header*@
-        <tr >
+        <tr>
             <td>
                 <img src="~/Content/Image/asp-net-signalr-chat-place.png" />
             </td>
-            <td Id="login" style="text-align:right;">
+            <td id="login" style="text-align: right;">
                 @Html.Action("Index", "Account")
             </td>
         </tr>
-        <tr >
+        <tr>
             <td colspan="2" class="tableBorders">Navigation
             </td>
         </tr>
         @* Body*@
-        <tr >
+        <tr>
             <td colspan="2">
                 @RenderBody()
             </td>
@@ -44,8 +46,20 @@
     </table>
 
 
+    <div id="DialogContent">
+    </div>
 
 
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/DialogWindows.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var dialogTable = $('.DialogTable');
+            if (dialogTable.length > 0) {
+                dialogTable.draggable();
+            }
+        });
+
+    </script>
 </body>
 </html>

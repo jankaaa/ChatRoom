@@ -1,30 +1,35 @@
 ﻿body {
     font-family: arial,tahoma,verdana,sans-serif;
-    width:850px;
-    height:733px;
+    width: 850px;
+    height: 733px;
+    position: absolute;
 }
 
-#AccountForm{
-color:#0094ff;
+#AccountForm {
+    color: #0094ff;
 }
 
+/*Aktīvo lietoāju saraksts*/
+/*-----------------------------------------------------*/
 .UserList {
     vertical-align: top;
 }
 
-.ActiveUser{
-margin:5px;
-font-size:15px;
-font-weight:bold;
-color:#132e78;
+.ActiveUser {
+    margin: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #132e78;
 }
 
-.ActiveUser:hover{
-    font-size:18px;
-    color:#12506f;
-}
+    .ActiveUser:hover {
+        font-size: 18px;
+        color: #12506f;
+    }
+
 
 /*Podziņu stilinš*/
+/*-----------------------------------------------------*/
 .button {
     -moz-box-shadow: inset 0px 1px 0px 0px #bbdaf7;
     -webkit-box-shadow: inset 0px 1px 0px 0px #bbdaf7;
@@ -44,14 +49,16 @@ color:#132e78;
     font-weight: bold;
     padding: 3px 20px;
     text-decoration: none;
-    float:right;
+    float: right;
 }
+
     .button:hover {
         background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff) );
         background: -moz-linear-gradient( center top, #378de5 5%, #79bbff 100% );
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff');
         background-color: #378de5;
     }
+
     .button:active {
         position: relative;
         top: 1px;
@@ -61,30 +68,29 @@ color:#132e78;
 /*Globālo paziņojumu rāmītis*/
 #GlobalMessages {
     white-space: nowrap;
-    table-layout:fixed;
+    table-layout: fixed;
     overflow: auto;
     height: 600px;
-    width:100%;
+    width: 100%;
     vertical-align: top;
-
 }
 
 /*login name textboksis*/
-#Id{
- width:100%;
+#Id {
+    width: 100%;
 }
 
 /*globālā čata ziņas elements*/
 .GlobMsg {
     width: 500px;
-    margin:10px;
+    margin: 10px;
 }
 
 #ActiveUserCount {
     max-height: 300px;
     width: 150px;
-   overflow-y:auto;
-   overflow-x:hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /*ziņu sūtīšanas tables*/
@@ -95,9 +101,10 @@ color:#132e78;
 /*Galventā tabula*/
 #ContentTable {
 }
+
 /*Zinās sūtīšanas txtbox*/
 #GlobalMsgText {
-   width: 570px;
+    width: 570px;
 }
 
 #SendMsgContext {
@@ -106,10 +113,18 @@ color:#132e78;
 
 /*Login td*/
 #login {
-    width:248px;
-   
+    width: 248px;
 }
 
+.SenderFormat {
+    color: #5e5c5c;
+}
+
+/*html formats*/
+/*----------------------------------------------------*/
+a {
+    text-decoration: none;
+}
 
 
 /*Aptumsotājs*/
@@ -153,7 +168,26 @@ color:#132e78;
     background-color: aliceblue;
 }
 
+/*Popouti*/
+/*--------------------------------------------------------*/
+.DialogTable {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+}
 
+/*Ziņu kontents*/
+.privateMessageContentBox {
+    background-color: #d0ffcf;
+    height: 330px;
+    margin: 10px;
+    overflow-y: auto;
+    vertical-align: top;
+}
+
+.PrivateMsg {
+    width: 300px;
+}
 
 /* Styles for basic forms
 -----------------------------------------------------------*/

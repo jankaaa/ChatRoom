@@ -16,7 +16,7 @@ function RegisterNewClient() {
     $.connection.hub.stateChanged(function (change) {
         if ($.signalR.connectionState["connected"] === change.newState) {
 
-        }else{
+        } else {
             $.connection.hub.start().done(function () {
                 SetClientMethods();
             });
@@ -33,7 +33,7 @@ function OnAuth(user) {
 //Pasaka serverim lai izņem no sarakstam
 function OnSignOut() {
     var chatHub = $.connection.chatHub;
-    chatHub.server.removePersonToGroup();
+    chatHub.server.removePersonFromGroup();
 }
 
 //Reģistrē callback funkcijas no Hub
@@ -48,15 +48,21 @@ function SetClientMethods() {
         generalChatBox.scrollTop(9999999999999999);
     }
 
-    //Privāta ziņa 
-    Hubs.client.sendPrivateMessage = function (toUserId, userName, msg) {
-
+    //Saņemot privātu ziņu
+    Hubs.client.sendPrivateMessage = function (partnerId, sender, msg) {
+        //Atveram dialog logu ja vēl nav atvērts
+        CallPrivateMessageDialog(partnerId);
+            var chatMessages = $('#' + partnerId + '_msgContent');
+            var message = '<div class=""> <b>' + sender + '</b>: ' + msg + '</div>';
+            chatMessages.append(message);
+            chatMessages.scrollTop(9999999999999999);
     }
 
     //Error logs
     Hubs.client.sendErrorMessage = function (user, msg) {
         var message = '<div class="GlobMsg" style="Color:Red">' + user + ': ' + msg + '</div>';
         $('#GlobalMessages').append(message);
+        $('#GlobalMessages').scrollTop(9999999999999999);
     }
 
     //Visiem ziņa, ka ir pienācis jauns ļietotājs
@@ -65,7 +71,8 @@ function SetClientMethods() {
         var userList = $('#ActiveUserCount');
         userList.empty();
         for (i = 0; i < allUsers.length; i++) {
-            var users = '<div onmousedown="javascript:CallPrivateMessageDialog(this)" class="ActiveUser" id="' + allUsers[i].Connection + '">' + allUsers[i].Name + '</div>';
+            var users = '<a href="#"><div onmousedown="javascript:CallPrivateMessageDialog(this.id)" class="ActiveUser" id="'
+                + allUsers[i].Connection + '">' + allUsers[i].Name + '</div></a>';
             userList.append(users);
         }
     }
@@ -79,12 +86,6 @@ function SetClientMethods() {
     Hubs.client.sendErrorAlert = function (message) {
         ShowErrorWindows(message);
     }
-
-}
-
-//Privātā ziņa
-function SendPrivateMessage() {
-
 }
 
 //Globālā ziņa visiem
@@ -97,11 +98,30 @@ function SendGlobalMessage(message) {
     }
 }
 
-
-
-function CallPrivateMessageDialog(item) {
-    //alert(item.id);
+//Privāta ziņa
+function SendPrivateMessageToServer(msgVal, toConnId) {
+    var Hubs = $.connection.chatHub;
+    Hubs.server.sendPrivateMessage(msgVal, toConnId);
 }
+
+//Atver dialog logu 
+//Item - Elements kura Id ir connId;
+function CallPrivateMessageDialog(item) {
+    var msgDialog = $('#' + item + '_dialog');
+    //Atveram jaunu modal logu
+    if (msgDialog.length == 0) {
+        ShowWaitScreen();
+        $.get('Home/GetPrivateMessageDialog?Id=' + item, function (data) {
+            $('#DialogContent').append(data);
+            $('.DialogTable').draggable();
+            RemoveWaitSCreen()
+        });
+    }
+    
+    
+}
+
+
 
 
 

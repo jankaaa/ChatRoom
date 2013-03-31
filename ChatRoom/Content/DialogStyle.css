@@ -1,0 +1,25 @@
+﻿/*Privātās ziņas*/
+/*--------------------------------------------------------*/
+
+.DialogTable{
+ width:400px;
+ height: 400px;
+ background-color:aliceblue;
+ 
+}
+
+.DialogHeader{
+    height:30px;
+    background-color:#088cee;
+    margin:0;
+}
+
+.CloseButton{
+float:right;
+}
+
+.UserNameAtTop{
+    color:#072863;
+}
+
+ 

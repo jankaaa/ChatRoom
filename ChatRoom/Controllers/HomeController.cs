@@ -16,5 +16,19 @@ namespace ChatRoom.Controllers
             return View();
         }
 
+        public ActionResult GetPrivateMessageDialog(string Id)
+        {
+            if (Id != null)
+            {
+               
+                var userName = ChatHub.UsersOnline.FirstOrDefault(x => x.Connection == Id);
+                ViewBag.ConnectionId = Id;
+                ViewBag.UserName = userName.Name;
+                return View();
+            }
+            else return null;
+
+        }
+
     }
 }

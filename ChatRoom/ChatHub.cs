@@ -13,7 +13,7 @@ namespace ChatRoom
         # region "Properties"
 
         //Aktīvie lietotāji sistēmā
-        static List<Users> UsersOnline = new List<Users>();
+        public static List<Users> UsersOnline = new List<Users>();
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace ChatRoom
             {
                 userName = Context.Request.User.Identity.Name;
                 //Nav autorizējies.
-                if (!(userName.Length > 5))
+                if (!(userName.Length > 4))
                     validUser = false;
 
             }
@@ -70,8 +70,10 @@ namespace ChatRoom
             var userName = UsersOnline.FirstOrDefault(x => x.Connection == Context.ConnectionId);
             if (userName != null)
             {
-                Clients.All.sendToGlobal("(" + DateTime.Now.ToShortTimeString() +
+                Clients.AllExcept(Context.ConnectionId).sendToGlobal("(" + DateTime.Now.ToShortTimeString() +
                     ") " + userName.Name, msg);
+                Clients.Caller.sendToGlobal("(" + DateTime.Now.ToShortTimeString() +
+                    ") <span class=\"SenderFormat\">" + userName.Name + "</span>", msg);
             }
             else
             {
@@ -80,55 +82,24 @@ namespace ChatRoom
         }
 
         /// <summary>
-        /// Kļūdu paziņojums
-        /// </summary>
-        /// <param name="error">Kļūdu ziņa</param>
-        public void SendErrorMessage(string error)
-        {
-            Clients.Caller.SendErrorMessage("Error", error);
-        }
-
-        /// <summary>
         /// Sūtīt ziņu privāti
         /// </summary>
         /// <param name="toUserId"></param>
         /// <param name="msg"></param>
-        public void PrivateMessage(string toUserId, string msg)
+        public void SendErrorMessage(string toUserId, string msg)
         {
-            var fromUserId = Context.ConnectionId;
-            var toUser = UsersOnline.FirstOrDefault(x => x.Connection == toUserId);
-            var fromUser = UsersOnline.FirstOrDefault(x => x.Connection == fromUserId);
-            if (toUser != null && fromUser != null)
+            var callerId = Context.ConnectionId;
+            bool userIsOnList =
+                UsersOnline.FirstOrDefault(x => x.Connection == toUserId) == null ? false : true;
+
+            //Vai ir online
+            if (userIsOnList)
             {
-                //Nosūta klientam
-                Clients.Client(toUserId).sendPrivateMessage(fromUserId, fromUser.Name, msg);
-                //Nosūta pats sev atpakaļ, lai pārliecinatos ka ir nosūtīts klietam
-                Clients.Caller.sendPrivateMessage(toUserId, fromUser.Name, msg);
+
             }
-
-        }
-
-        /// <summary>
-        /// PAr cik logins ir uz Callback, piereģistrējam jaunu lietotāju caur šo metodi
-        /// </summary>
-        /// <returns></returns>
-        public void OnReconnected()
-        {
-            var userName = Context.Request.User.Identity.Name;
-            if (userName.Length > 4)
+            else
             {
-                //Saņem jaunpienākošā lietotāja Id. guid formātā.
-                var userID = Context.ConnectionId;
-                Users user = new Users() { Name = userName, Connection = userID };
-                var userExsists = UsersOnline.FirstOrDefault(x => x.Connection == userID);
-                if (userExsists == null)
-                {
-                    UsersOnline.Add(user);
-                    //Nosūtām jaunpienākošā lietotāja informāciju
-                    Clients.Caller.onConnection(userID, userName, UsersOnline);
-                    //Nosūtam pārējiem informāciju, ka pienācis jauns lietotājs.
-                    Clients.AllExcept(userID).onNewUserConnection(userID, userName);
-                }
+
             }
         }
 
@@ -138,24 +109,44 @@ namespace ChatRoom
         public override System.Threading.Tasks.Task OnDisconnected()
         {
             //Noskaidrojam lietotāju kurš izgājis no sistēmas(izsaucis šo metodi)
-            RemovePersonToGroup();
+            RemovePersonFromGroup();
             return base.OnDisconnected();
         }
 
         /// <summary>
         /// Izņem lietotāju no saraksta
         /// </summary>
-        public void RemovePersonToGroup()
+        public void RemovePersonFromGroup()
         {
             var user = UsersOnline.FirstOrDefault(x => x.Connection == Context.ConnectionId);
             UsersOnline.Remove(user);
             Clients.All.onDisconnection(Context.ConnectionId, user.Name);
         }
 
+        /// <summary>
+        /// Sūtīt privātu ziņu
+        /// </summary>
+        /// <param name="message">Ziņas teksts</param>
+        /// <param name="toConnId">Kam sūtīt</param>
+        public void SendPrivateMessage(string message, string toConnId)
+        {
+            var Sender = UsersOnline.FirstOrDefault(x => x.Connection == Context.ConnectionId);
+            //Nevajadzētu būt, bet ja nu tomēr
+            if (Sender != null)
+            {
+
+                Clients.Client(toConnId).SendPrivateMessage(Sender.Connection, "(" + DateTime.Now.ToShortTimeString() +
+                    ") " + Sender.Name, message);
+                //Ja pats sev sūta.
+                if (toConnId != Context.ConnectionId)
+                {
+                    Clients.Caller.SendPrivateMessage(toConnId, "(" + DateTime.Now.ToShortTimeString() +
+          ") <span class=\"SenderFormat\">" + Sender.Name + "</span>", message);
+                }
+            }
+        }
+
         #endregion
-
-
-
 
         #region "Functions"
 
@@ -188,6 +179,15 @@ namespace ChatRoom
             var userID = Context.ConnectionId;
             Users user = new Users() { Name = ValidateUserName(userName, 0), Connection = userID };
             UsersOnline.Add(user);
+        }
+
+        /// <summary>
+        /// Kļūdu paziņojums
+        /// </summary>
+        /// <param name="error">Kļūdu ziņa</param>
+        public void SendErrorMessage(string error)
+        {
+            Clients.Caller.SendErrorMessage("Error", error);
         }
 
         #endregion
