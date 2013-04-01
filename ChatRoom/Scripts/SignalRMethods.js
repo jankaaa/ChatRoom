@@ -12,6 +12,7 @@ $(function () {
 
 //Pievienot aktīvo lietotāju sarakstam
 function RegisterNewClient() {
+
     var chatHub = $.connection.chatHub;
     $.connection.hub.stateChanged(function (change) {
         if ($.signalR.connectionState["connected"] === change.newState) {
@@ -26,14 +27,20 @@ function RegisterNewClient() {
 
 //Pasaka serverim, lai pieliek sarakstam ja user.length > 0
 function OnAuth(user) {
-    var chatHub = $.connection.chatHub;
-    chatHub.server.addPersonToGroup(user);
+    $.connection.hub.start().done(function () {
+        var chatHub = $.connection.chatHub;
+        SetClientMethods();
+        chatHub.server.addPersonToGroup(user);
+    });
+
 }
 
 //Pasaka serverim lai izņem no sarakstam
 function OnSignOut() {
-    var chatHub = $.connection.chatHub;
-    chatHub.server.removePersonFromGroup();
+    //location = '';
+        var chatHub = $.connection.chatHub;
+        SetClientMethods();
+        chatHub.server.removePersonFromGroup();
 }
 
 //Reģistrē callback funkcijas no Hub
@@ -118,9 +125,9 @@ function CallPrivateMessageDialog(item) {
             type: "POST",
             async: false,
             success: function (data) {
-                    $('#DialogContent').append(data).hide().show('slow');
-                    $('.DialogTable').draggable();
-                    RemoveWaitSCreen();
+                $('#DialogContent').append(data).hide().show('slow');
+                $('.DialogTable').draggable();
+                RemoveWaitSCreen();
             }
         });
     }

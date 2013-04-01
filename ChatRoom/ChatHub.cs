@@ -97,8 +97,11 @@ namespace ChatRoom
         public void RemovePersonFromGroup()
         {
             var user = UsersOnline.FirstOrDefault(x => x.Connection == Context.ConnectionId);
-            UsersOnline.Remove(user);
-            Clients.All.onDisconnection(Context.ConnectionId, user.Name);
+            if (user != null)
+            {
+                UsersOnline.Remove(user);
+                Clients.All.onDisconnection(Context.ConnectionId, user.Name);
+            }
         }
 
         /// <summary>
